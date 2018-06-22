@@ -50,8 +50,7 @@ And finally run by using:
 
 > `$ docker run -p8888:8888 -p61616:61616 -p8161:8161 -e MOCK_SERIVCE_NAME=YourMockService your-tag`
 
-(_if you rename your mock service to `default-mock`, you can leave the `MOCK_SERVICE_NAME` env variable out of the run command_)
-
+( *if you rename your mock service to `default-mock`, you can leave the `MOCK_SERVICE_NAME` env variable out of the run command* )
 
 ## Ports and customization
 
@@ -75,6 +74,11 @@ Just override them with your desired location:
 As an alternative you can just mount your persistent config and data directories into the default location:
 
     docker run -p 61616:61616 -p 8161:8161 -v /opt/activemq/conf:/opt/activemq/conf -v /opt/activemq/data:/opt/activemq/data dannykruitbosch/activemq-soapui:latest
+
+## Creating a mock service that send JMS messages to the broker.
+
+Here's a small tutorial on how to send messages from SOAP-UI mocks to the JMS broker. The default mock in this container uses this method.
+See https://github.com/dannykruitbosch/docker-activemq-soapui/blob/master/docs/using-jms-in-soapui.md
 
 ## Thanks
 
