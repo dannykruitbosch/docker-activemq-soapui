@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="594b8193-d597-4ed5-b5e8-a4713753dfdf" activeEnvironment="Default" name="default" resourceRoot="${projectDir}" soapui-version="5.4.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings><con:setting id="ProjectSettings@hermesConfig">/Users/dannykruitbosch/.hermes</con:setting></con:settings><con:interface xsi:type="con:WsdlInterface" id="f6f9cdf1-5bca-41e9-9a93-2f57100aaa6b" wsaVersion="NONE" name="sayHiBinding" type="wsdl" bindingName="{http://www.example.com/webservice}sayHiBinding" soapVersion="1_1" anonymous="optional" definition="default-mock.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/Users/dannykruitbosch/Projects/docker/activemq-soapui/soapui-prj/default-mock.wsdl"><con:part><con:url>file:/Users/dannykruitbosch/Projects/docker/activemq-soapui/soapui-prj/default-mock.wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http://www.example.com/webservice" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ws="http://www.example.com/webservice">
+  <wsdl:types>
+    <xs:schema targetNamespace="http://www.example.com/webservice">
+      <xs:element name="sayHiRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="greeting" type="xs:string" minOccurs="1"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="sayHiResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="greeting" type="xs:string" minOccurs="1"/>
+            <xs:element name="greetingResponse" type="xs:string" minOccurs="1"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="sayHiRequest">
+    <wsdl:part name="request" element="ws:sayHiRequest"/>
+  </wsdl:message>
+  <wsdl:message name="sayHiResponse">
+    <wsdl:part name="response" element="ws:sayHiResponse"/>
+  </wsdl:message>
+  <wsdl:portType name="sayHiPortType">
+    <wsdl:operation name="sayHi">
+      <wsdl:input message="ws:sayHiRequest"/>
+      <wsdl:output message="ws:sayHiResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="sayHiBinding" type="ws:sayHiPortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <wsdl:operation name="sayHi">
+      <soap:operation style="document" soapAction="urn:sayHi"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="GreetingService">
+    <wsdl:port name="GreetingServicePort" binding="ws:sayHiBinding">
+      <soap:address location="http://localhost:8888/default-mock"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://dannys-mbp-2.lan:8888/default-mock</con:endpoint><con:endpoint>http://localhost:8888/default-mock</con:endpoint></con:endpoints><con:operation id="615f13c5-42d8-40a8-bc8a-f66f1f2dd055" isOneWay="false" action="urn:sayHi" name="sayHi" bindingOperationName="sayHi" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="fa99f856-d536-463e-8f77-d0908b703159" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8888/default-mock</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.example.com/webservice">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <web:sayHiRequest>
+         <greeting>Hi</greeting>
+      </web:sayHiRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:sayHi"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:mockService id="0d698bf2-5b44-46e6-b0d1-2367c053becc" port="8888" path="/default-mock" host="dannys-mbp-2.lan" name="default-mock" bindToHostOnly="false" docroot=""><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.mock.WsdlMockService@require-soap-action">false</con:setting></con:settings><con:startScript>import org.apache.activemq.*;
+import javax.jms.*;
+
+def jmsEnabled = mockRunner.getMockService().getProject().getPropertyValue('jmsEnabled').toBoolean()
+def jmsDestination = mockRunner.getMockService().getProject().getPropertyValue('jmsDestination')
+def jmsDestinationType = mockRunner.getMockService().getProject().getPropertyValue('jmsDestinationType')
+
+// Add JMS Enabled property to the context of mockService
+context.jmsEnabled = jmsEnabled
+
+if(jmsEnabled) {
+	ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(brokerURL: 'tcp://localhost:61616')
+	Connection jmsConnection = connectionFactory.createConnection()
+	jmsConnection.start()
+	
+	Session jmsSession = jmsConnection.createSession(false, Session.AUTO_ACKNOWLEDGE)
+
+	// Select destinationType (defauls to queue
+	if(jmsDestinationType.equals('topic')) {
+		Topic jmsTopic = jmsSession.createTopic(jmsDestination) 
+		MessageProducer jmsProducer = jmsSession.createProducer(jmsTopic)
+		context.jmsProducer = jmsProducer
+		log.info context.jmsProducer
+	} else {
+		Destination jmsQueue = jmsSession.createQueue(jmsDestination);
+		MessageProducer jmsProducer = jmsSession.createProducer(jmsQueue)
+		context.jmsProducer = jmsProducer
+		log.info context.jmsProducer
+	}
+	
+	log.info "Succesfully connected to JMS Broker"
+	log.info "Sending messages to "+ jmsDestinationType+ ": " + jmsDestination
+	
+	// add JMS stuff to the mock context
+	context.jmsConnection = jmsConnection
+	context.jmsSession = jmsSession
+}</con:startScript><con:stopScript>import javax.jms.*
+
+if (context.jmsConnection !=null) {
+	log.info "Closing JMS connection"
+	context.jmsSession.close()
+	context.jmsConnection.close()
+}
+</con:stopScript><con:properties/><con:afterRequestScript/><con:mockOperation name="sayHi" id="329a95c8-144b-411d-a8c1-762a22de63cb" interface="sayHiBinding" operation="sayHi"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SEQUENCE</con:dispatchStyle><con:response name="Response 1" id="ac7fc6d1-7a6f-4e1d-8e61-327c5f775500" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:script>import javax.jms.*
+import groovy.json.JsonOutput
+
+// create XmlHolder for request content
+def holder = new com.eviware.soapui.support.XmlHolder( mockRequest.requestContent )
+// get mnEmployerNumber from request
+def greeting = holder["//*[local-name() = 'greeting']"].toString()
+
+// Only send JMS message when JMS is enabled
+if (context.jmsEnabled) {
+	// Create message and send to JMS
+	def json = JsonOutput.toJson([greeting: greeting, greetingResponse: 'Hi, thanks for the greeting'])
+	log.info json
+	TextMessage message = context.jmsSession.createTextMessage(json)
+	message.setStringProperty('_type', 'sayHiResponse')
+	context.jmsProducer.send(message)
+}
+
+requestContext.greeting = greeting</con:script><con:responseContent><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.example.com/webservice">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <web:sayHiResponse>
+         <greeting>${greeting}</greeting>
+         <greetingResponse>Hi, thanks for the greeting</greetingResponse>
+      </web:sayHiResponse>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:sayHi"/></con:response><con:dispatchConfig/></con:mockOperation></con:mockService><con:properties><con:property><con:name>jmsEnabled</con:name><con:value>true</con:value></con:property><con:property><con:name>jmsDestination</con:name><con:value>Mock.Q</con:value></con:property><con:property><con:name>jmsDestinationType</con:name><con:value>queue</con:value></con:property></con:properties><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:sensitiveInformation/></con:soapui-project>

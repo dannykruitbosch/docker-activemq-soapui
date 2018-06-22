@@ -1,0 +1,1 @@
+Any shell scripts you want exectuted before ActiveMQ and SOAP-UI mock are started can be stored in this folder.

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://www.example.com/webservice"
+  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+  xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ws="http://www.example.com/webservice">
+  
+  <wsdl:types>
+    <xs:schema targetNamespace="http://www.example.com/webservice">
+      <xs:element name="sayHiRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="greeting" type="xs:string" minOccurs="1"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="sayHiResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="greeting" type="xs:string" minOccurs="1"/>
+            <xs:element name="greetingResponse" type="xs:string" minOccurs="1"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </wsdl:types>
+  
+  <wsdl:message name="sayHiRequest">
+    <wsdl:part name="request" element="ws:sayHiRequest"/>
+  </wsdl:message>
+  <wsdl:message name="sayHiResponse">
+    <wsdl:part name="response" element="ws:sayHiResponse"/>
+  </wsdl:message>
+  
+  <wsdl:portType name="sayHiPortType">
+    <wsdl:operation name="sayHi">
+      <wsdl:input message="ws:sayHiRequest"/>
+      <wsdl:output message="ws:sayHiResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  <wsdl:binding name="sayHiBinding" type="ws:sayHiPortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <wsdl:operation name="sayHi">
+      <soap:operation style="document" soapAction="urn:sayHi"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  
+  <wsdl:service name="GreetingService">
+    <wsdl:port name="GreetingServicePort" binding="ws:sayHiBinding">
+      <soap:address location="http://localhost:8888/default-mock"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
