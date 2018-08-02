@@ -20,6 +20,7 @@ RUN adduser -D -h /home/soapui soapui soapui && \
     rm -rf /var/cache/apk/*
 
 COPY docker-entrypoint.sh /
+COPY activemq/activemq.xml $ACTIVEMQ_HOME/conf/activemq.xml
 ADD docker-entrypoint-init.d /docker-entrypoint-init.d
 ADD soapui-prj $SOAPUI_PRJ
 

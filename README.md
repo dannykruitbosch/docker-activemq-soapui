@@ -18,7 +18,7 @@ To run the container:
   
   > `$ docker pull dannykruitbosch/activemq-soapui:latest`
   
-  > `$ docker run -p8888:8888 -p61616:61616 -p8161:8161 dannykruitbosch/activemq-soapui:latest`
+  > `$ docker run -p8888:8888 -p61616:61616 -p8161:8161 dannykruitbosch/docker-activemq-soapui:latest`
 
 ## Adding your own SOAP-UI mockservice
 
@@ -31,7 +31,7 @@ There are two ways to add your own mock service to the container
     -e MOCK_SERVICE_NAME=YourMockService \
     -e PROJECT=your-soapui-project.xml \
     -e MOCK_SERVICE_PORT=8888 \
-    dannykruitbosch/activemq-soapui:latest
+    dannykruitbosch/docker-activemq-soapui:latest
 
 
 ### By building your own image/container
@@ -69,11 +69,13 @@ And finally run by using:
 ActiveMQ checks your environment for the variables *ACTIVEMQ_BASE*, *ACTIVEMQ_CONF* and *ACTIVEMQ_DATA*.
 Just override them with your desired location:
 
-    docker run -p 61616:61616 -p 8161:8161 -e ACTIVEMQ_CONF=/etc/activemq/conf -e ACTIVEMQ_DATA=/var/lib/activemq/data dannykruitbosch/activemq-soapui:latest
+    docker run -p 61616:61616 -p 8161:8161 -e ACTIVEMQ_CONF=/etc/activemq/conf -e ACTIVEMQ_DATA=/var/lib/activemq/data dannykruitbosch/docker-activemq-soapui:latest
 
 As an alternative you can just mount your persistent config and data directories into the default location:
 
-    docker run -p 61616:61616 -p 8161:8161 -v /opt/activemq/conf:/opt/activemq/conf -v /opt/activemq/data:/opt/activemq/data dannykruitbosch/activemq-soapui:latest
+    docker run -p 61616:61616 -p 8161:8161 -v /opt/activemq/conf:/opt/activemq/conf -v /opt/activemq/data:/opt/activemq/data dannykruitbosch/docker-activemq-soapui:latest
+
+This image has one small config option extra enabled, namely [_schedulerSupport_](http://activemq.apache.org/delay-and-schedule-message-delivery.html). This allows you to delay sending messages as a response from a MockRequest (see the small tutorial on JMS and SOAP-UI mocks).
 
 ## Creating a mock service that send JMS messages to the broker.
 
